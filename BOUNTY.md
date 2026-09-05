@@ -11,6 +11,8 @@
 
 ## What is ready
 
+- Live app: https://tech-ripper.github.io/proofcrumb/
+- Public source: https://github.com/tech-ripper/proofcrumb
 - Working React/TypeScript prototype
 - Nightly-compatible Wallet Standard connection
 - Cookie Chain RPC health check
