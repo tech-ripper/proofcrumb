@@ -4,6 +4,10 @@
 
 **Source:** https://github.com/tech-ripper/proofcrumb
 
+**Verified production receipt:** https://cookiescan.io/tx/3oYkMA7ySFoUrstEU7BtZoU6s7EArpkgRJ54dcUyTX6ZN8f1oDoXqBA9oWEFmoc8bm7gZd9X7JpuPp4kPhePssfD
+
+![ProofCrumb confirmed receipt on Cookie Chain](docs/proofcrumb-receipt-mobile.jpg)
+
 ProofCrumb creates tamper-evident proof-of-work receipts on **Cookie Chain**. A user connects a Wallet Standard-compatible wallet such as Nightly, describes completed work, links the public deliverable, and signs one memo transaction. The resulting CookieScan transaction URL is a permanent, independently verifiable delivery receipt.
 
 ## Why it is useful
