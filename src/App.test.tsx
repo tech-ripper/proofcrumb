@@ -9,5 +9,6 @@ describe('ProofCrumb app shell', () => {
     expect(screen.getByRole('heading', { name: /proof of work that lives on-chain/i })).toBeTruthy();
     expect(screen.getAllByText(/cookie chain/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/connect nightly/i)).toBeTruthy();
+    expect(screen.getByText('https://rpc.cookiescan.io')).toBeTruthy();
   });
 });

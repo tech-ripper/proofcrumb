@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { buildReceiptTransaction, COOKIE_RPC_URL, explorerTransactionUrl } from './chain';
+import {
+  assertSufficientCookieBalance,
+  buildReceiptTransaction,
+  COOKIE_RPC_URL,
+  explorerTransactionUrl,
+  signAndBroadcastTransaction,
+} from './chain';
 import { createReceiptMemo, extractReceiptFromLog, validateReceiptInput } from './receipt';
 import './styles.css';
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -17,7 +23,7 @@ function shorten(value: string, head = 6, tail = 5) {
 
 function ReceiptDashboard() {
   const { connection } = useConnection();
-  const { connected, publicKey, sendTransaction } = useWallet();
+  const { connected, publicKey, signTransaction } = useWallet();
   const [task, setTask] = useState('');
   const [deliverableUrl, setDeliverableUrl] = useState('');
   const [activity, setActivity] = useState<ReceiptActivity[]>([]);
@@ -79,7 +85,12 @@ function ReceiptDashboard() {
       const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('confirmed');
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = publicKey;
-      const signature = await sendTransaction(transaction, connection);
+      const [balanceBaseUnits, fee] = await Promise.all([
+        connection.getBalance(publicKey, 'confirmed'),
+        connection.getFeeForMessage(transaction.compileMessage(), 'confirmed'),
+      ]);
+      assertSufficientCookieBalance(balanceBaseUnits, fee.value);
+      const signature = await signAndBroadcastTransaction(transaction, signTransaction, connection);
       setStatus('Confirming on Cookie Chain…');
       await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
       setStatus(`Receipt confirmed: ${shorten(signature, 8, 8)}`);
@@ -125,6 +136,10 @@ function ReceiptDashboard() {
             <span className="status-dot">{connected ? 'WALLET READY' : 'CONNECT NIGHTLY'}</span>
           </div>
           <form onSubmit={submitReceipt}>
+            <div className="network-guide">
+              <strong>Nightly network required</strong>
+              <span>Add a custom SVM network using RPC <code>{COOKIE_RPC_URL}</code> before signing.</span>
+            </div>
             <label htmlFor="task">What was completed?</label>
             <textarea id="task" value={task} maxLength={280} onChange={(event) => setTask(event.target.value)} placeholder="Example: Shipped idempotent Telegram alert delivery" />
             <div className="field-meta"><span>Specific, public-safe descriptions work best.</span><span>{task.length}/280</span></div>

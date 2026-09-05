@@ -44,6 +44,9 @@ h1 { margin: 0; font-size: clamp(48px, 7vw, 84px); line-height: .98; letter-spac
 .composer { padding: 30px; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 32px; }
 .section-heading > div { display: flex; align-items: center; gap: 12px; }
+.network-guide { display: grid; gap: 5px; margin: -12px 0 24px; padding: 12px 14px; border: 1px solid rgba(246, 200, 95, .28); border-radius: 10px; background: rgba(246, 200, 95, .06); color: #d7cfdd; font-size: 12px; line-height: 1.45; }
+.network-guide strong { color: #f6c85f; font-size: 12px; }
+.network-guide code { color: #f0eafa; overflow-wrap: anywhere; }
 .step { color: var(--purple-bright); font: 12px 'Space Mono', monospace; }
 h2 { margin: 0; font-size: 21px; letter-spacing: -.03em; }
 .status-dot { color: var(--green); font: 11px 'Space Mono', monospace; letter-spacing: .07em; }
