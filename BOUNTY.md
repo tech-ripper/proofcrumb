@@ -33,6 +33,8 @@
 ## Pre-publication work still required
 
 - Test with a real Nightly wallet and confirmed Cookie Chain transaction.
+- Review or replace the Solana wallet-adapter dependency tree: `npm audit --omit=dev` currently reports 19 transitive advisories (12 moderate, 7 high, 0 critical), including React Native packages that are not used by the browser build and web3.js dependencies without an available upstream fix.
+- Split the 634 kB JavaScript bundle before final publication if time permits.
 - Capture a short demo video or screenshots.
 - Deploy the static build.
 - Publish the repository and X thread.
